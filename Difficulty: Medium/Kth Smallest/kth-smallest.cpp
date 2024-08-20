@@ -15,22 +15,27 @@ class Solution {
     int kthSmallest(vector<int> &arr, int k) {
         
         // code here
-        sort(arr.begin(),arr.end());
-        return arr[k-1];
-        // set<int>s;
-        // int n=arr.size();
-        // for(int i=0;i<n;i++){
-        //     s.insert(arr[i]);
-        // }
-        // for(auto it:s){
-        //     cout<<it<<" ";
-        // }
+        // sort(arr.begin(),arr.end());
+        // return arr[k-1];
+        set<int>s;
+        int n=arr.size();
+        for(int i=0;i<n;i++){
+            s.insert(arr[i]);
+        }
+        auto it=s.begin();
+        for(auto it:s){
+            if(k==1){
+                return it;
+            }
+            k--;
+            it++;
+        }
         // auto it=s.begin();
         // for(int i=0;i<k;i++){
-        //     it++;
+            
         // }
         // it--;
-        // // cout<<*it;
+        // cout<<*it;
         // return *it;
         // return 1;
     }
