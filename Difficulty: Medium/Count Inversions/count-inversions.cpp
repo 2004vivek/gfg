@@ -9,43 +9,42 @@ class Solution {
     int c=0;
   public:
     // Function to count inversions in the array.
-    void merge(vector<int>&arr,int low,int mid,int high){
-    vector<int>v;
-    int i=low;
-    int j=mid+1;
-    while(i<=mid&&j<=high){
-        if(arr[i]<=arr[j]){
-            v.push_back(arr[i]);
-            i++;
+    void merge(vector<int>&arr,int i,int mid,int j){
+        int n=arr.size();
+        int low=i;
+        int high=mid+1;
+        vector<int>v;
+     
+        while(low<=mid&&high<=j){
+            if(arr[low]<=arr[high]){
+                v.push_back(arr[low]);
+                low++;
+            }
+            else{
+                c=c+(mid-low+1);
+                v.push_back(arr[high]);
+                high++;
+            }
         }
-        else {
-            c=c+(mid-i+1);
-            v.push_back(arr[j]);
-            j++;
+        while(low<=mid){
+             v.push_back(arr[low]);
+                low++;
+        }
+        while(high<=j){
+             v.push_back(arr[high]);
+                high++;
+        }
+        for(int k=i;k<=j;k++){
+            arr[k]=v[k-i];
         }
     }
-    while(i<=mid){
-         v.push_back(arr[i]);
-            i++;
+    void mergesort(vector<int>&arr,int i,int j){
+        if(i>=j) return ;
+        int mid=(i+j)/2;
+        mergesort(arr,i,mid);
+        mergesort(arr,mid+1,j);
+        merge(arr,i,mid,j);
     }
-    while(j<=high){
-         v.push_back(arr[j]);
-         j++;
-    }
-    for(int i=low;i<=high;i++){
-        arr[i]=v[i-low];
-    }
-    }
-    void mergesort(vector<int>&arr,int low,int high){
-        if(low>=high){
-            return ;
-        }
-        int mid=(low+high)/2;
-        mergesort(arr,low,mid);
-        mergesort(arr,mid+1,high);
-        merge(arr,low,mid,high);
-    }
-    
     int inversionCount(vector<int> &arr) {
         // Your Code Here
         int n=arr.size();
