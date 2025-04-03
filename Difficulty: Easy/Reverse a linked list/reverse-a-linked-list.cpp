@@ -27,6 +27,7 @@ struct Node {
 
 
 // } Driver Code Ends
+
 /* Linked List Node structure:
 
 struct Node
@@ -41,21 +42,20 @@ class Solution {
   public:
     Node* reverseList(struct Node* head) {
         // code here
-        vector<int>v;
         Node *temp=head;
-        while(temp!=NULL){
-            v.push_back(temp->data);
-            temp=temp->next;
+        Node *nex=temp;
+        Node *prev=NULL;
+        while(nex!=NULL){
+            nex=nex->next;
+            temp->next=prev;
+            prev=temp;
+            temp=nex;
         }
-        reverse(v.begin(),v.end());
-        temp=head;
-        for(int i=0;i<v.size();i++){
-           temp->data=v[i];
-           temp=temp->next;
-        }
-        return head;
+        
+        return prev;
     }
 };
+
 
 
 //{ Driver Code Starts.
