@@ -24,6 +24,7 @@ void printList(Node* node) {
 
 
 // } Driver Code Ends
+
 // User function template for C++
 
 /*
@@ -43,46 +44,50 @@ struct Node
 
 class Solution {
   public:
-  Node *reverse(Node *head){
+  Node *reverseList(Node *head){
+      Node *prev=NULL;
       Node *temp=head;
-      vector<int>v;
-      while(temp!=NULL){
-          v.push_back(temp->data);
-          temp=temp->next;
+      Node *nex=head;
+      while(nex!=NULL){
+          nex=nex->next;
+          temp->next=prev;
+          prev=temp;
+          temp=nex;
       }
-      temp=head;
-      for(int i=v.size()-1;i>=0;i--){
-          temp->data=v[i];
-          temp=temp->next;
-      }
-      return head;
+      return prev;
   }
     Node* addOne(Node* head) {
         // Your Code here
         // return head of list after adding one
-       head=reverse(head);
-       Node *temp1=head;
-       int carry=1;
-       while(temp1!=NULL){
-           if(temp1->data<9){
-               carry=0;
-               temp1->data=temp1->data+1;
-               break;
-           }
-           else{
-              temp1->data=0; 
-           }
-           temp1=temp1->next;
-       }
-       head=reverse(head);
-       if(carry){
-           Node *newNode = new Node(1);
-        newNode->next = head;
-        head = newNode;
-       }
-       return head;
+        // if(head->data<9){
+        //     head->data+=1;
+        //     return head;
+        // }
+        Node *head1=reverseList(head);
+        int carry=1;
+        Node *temp=head1;
+        Node *nn=new Node(carry);
+        while(temp!=NULL){
+            int s=temp->data+carry;
+            carry=s/10;
+            temp->data=s%10;
+            temp=temp->next;
+        }
+        if(carry>0){
+            nn->next=head1;
+            head1=nn;
+            return head1;
+            
+        }
+        Node *head2=reverseList(head1);
+        
+        
+        
+        
+        return head2;
     }
 };
+
 
 //{ Driver Code Starts.
 
@@ -116,6 +121,7 @@ int main() {
         Solution ob;
         head = ob.addOne(head);
         printList(head);
+        cout << "~" << endl;
     }
     return 0;
 }
