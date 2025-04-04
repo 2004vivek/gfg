@@ -44,47 +44,30 @@ struct Node
 
 class Solution {
   public:
-  Node *reverseList(Node *head){
-      Node *prev=NULL;
-      Node *temp=head;
-      Node *nex=head;
-      while(nex!=NULL){
-          nex=nex->next;
-          temp->next=prev;
-          prev=temp;
-          temp=nex;
+  int helper(Node *temp){
+      if(temp==NULL) return 1;
+      int carry=helper(temp->next);
+      temp->data=temp->data+carry;
+      if(temp->data<=9){
+          return 0;
       }
-      return prev;
+    //   else{
+          temp->data=0;
+          return 1;
+    //   }
+      
   }
     Node* addOne(Node* head) {
         // Your Code here
         // return head of list after adding one
-        // if(head->data<9){
-        //     head->data+=1;
-        //     return head;
-        // }
-        Node *head1=reverseList(head);
-        int carry=1;
-        Node *temp=head1;
-        Node *nn=new Node(carry);
-        while(temp!=NULL){
-            int s=temp->data+carry;
-            carry=s/10;
-            temp->data=s%10;
-            temp=temp->next;
-        }
-        if(carry>0){
-            nn->next=head1;
-            head1=nn;
-            return head1;
-            
-        }
-        Node *head2=reverseList(head1);
-        
-        
-        
-        
-        return head2;
+        Node *temp=head;
+       int carry=helper(temp);
+       if(carry>0){
+           Node *nn=new Node(carry);
+           nn->next=head;
+           head=nn;
+       }
+           return head;
     }
 };
 
