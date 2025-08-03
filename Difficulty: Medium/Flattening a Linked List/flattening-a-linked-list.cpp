@@ -16,26 +16,35 @@ struct Node{
 
 class Solution {
   public:
+  Node *merged(Node *l1,Node *l2){
+      Node *dummy=new Node(-1);
+      Node *temp=dummy;
+      Node *temp1=l1;
+      Node *temp2=l2;
+      while(temp1!=NULL&&temp2!=NULL){
+          if(temp1->data<temp2->data){
+              temp->bottom=temp1;
+              temp=temp1;
+              temp1=temp1->bottom;
+          }
+          else{
+               temp->bottom=temp2;
+              temp=temp2;
+              temp2=temp2->bottom;
+          }
+          temp->next=NULL;
+      }
+      if(temp1)  temp->bottom=temp1;
+      else  temp->bottom=temp2;
+      return dummy->bottom;
+  }
     // Function which returns the  root of the flattened linked list.
     Node *flatten(Node *root) {
         // Your code here
-        vector<int>v;
-        Node *temp=root;
-        while(temp!=NULL){
-            Node *t1=temp;
-            while(t1!=NULL){
-                v.push_back(t1->data);
-                t1=t1->bottom;
-            }
-            temp=temp->next;
+        if(root==NULL|| root->next==NULL){
+            return root;
         }
-        sort(v.begin(),v.end());
-        Node *t2=new Node(v[0]);
-        Node *head1=t2;
-        for(int i=1;i<v.size();i++){
-            t2->bottom=new Node(v[i]);
-            t2=t2->bottom;
-        }
-        return head1;
+        Node *mergedhead=flatten(root->next);
+        return merged(root,mergedhead);
     }
 };
